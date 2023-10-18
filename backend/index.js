@@ -55,7 +55,12 @@ const { createServer } = require("http");
 const WebSocket = require("ws");
 const cors = require("cors");
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://chat-app-front-tau.vercel.app",
+  methods: ["GET", "POST"],
+};
+
+app.use(cors(corsOptions));
 
 const httpServer = createServer(app);
 
@@ -63,21 +68,18 @@ app.get("/home", (req, res) => {
   res.send("Hello");
 });
 
-// Create a WebSocket server using the existing HTTP server
 const wsServer = new WebSocket.Server({ server: httpServer });
 
 wsServer.on("connection", (socket) => {
   console.log(`User Connected: ${socket._socket.remoteAddress}`);
 
   socket.on("message", (message) => {
-    // Handle incoming messages
     const data = JSON.parse(message);
     if (data.type === "join_room") {
       socket.room = data.room;
       socket.join(data.room);
     } else if (data.type === "send_message") {
       wsServer.clients.forEach((client) => {
-        // Broadcast the message to all clients in the same room
         if (client.room === socket.room && client !== socket) {
           client.send(JSON.stringify({ type: "receive_message", ...data }));
         }
