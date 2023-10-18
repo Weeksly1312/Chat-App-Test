@@ -25,19 +25,26 @@ const io = new Server(server, {
       methods: ["GET", "POST"],
     },
   });
+
   
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
-
-  socket.on("join_room", (data) => {
-    socket.join(data);
+  io.on("connection", (socket) => {
+    console.log(`User Connected: ${socket.id}`);
+  
+    socket.on("join_room", (data) => {
+      socket.join(data);
+    });
+  
+    socket.on("send_message", (data) => {
+      socket.to(data.room).emit("receive_message", data);
+    });
+  
+    // Add disconnect event handling
+    socket.on("disconnect", () => {
+      console.log(`User Disconnected: ${socket.id}`);
+    });
   });
-
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
-  });
-});
+  
 
 server.listen(3001, () => {
   console.log("SERVER IS RUNNING");
