@@ -90,7 +90,7 @@ function App() {
     };
   
     const openWebSocket = () => {
-      const newSocket = new WebSocket("wss://chat-app-test-chi.vercel.app/");
+      const newSocket = new WebSocket("wss://localhost:3001");
   
       newSocket.addEventListener("open", () => {
         console.log("WebSocket connection opened");
