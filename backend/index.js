@@ -1,41 +1,50 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const cors = require('cors');
-
+const express = require("express");
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server, {
+// const http = require("http");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const cors = require("cors");
+
+app.use(cors());
+
+// const server = http.createServer(app);
+const httpServer = createServer(app);
+
+app.get("/home", (req, res) => {
+  res.send("Hello");
+});
+
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "http://localhost:5173",
+//     methods: ["GET", "POST"],
+//   },
+// });
+
+const io = new Server(httpServer, {
   cors: {
-    origin: '*',
+    origin: "https://chat-app-front-tau.vercel.app", // Update this to your frontend domain with HTTPS
+    methods: ["GET", "POST"],
   },
 });
 
-app.use(cors()); // Enable CORS for all routes
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
 
-app.use(express.static('public'));
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-  // Listen for joining a room
-  socket.on('join room', (room) => {
-    socket.join(room);
-    console.log(`User joined room: ${room}`);
+  socket.on("join_room", (data) => {
+    socket.join(data);
   });
 
-  // Listen for messages in a specific room
-  socket.on('chat message', ({ room, msg }) => {
-    io.to(room).emit('chat message', msg);
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
   });
 
-  // Handle disconnect
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
+
+//   socket.on("disconnect", () => {
+//     console.log(`User Disconnected: ${socket.id}`);
+//   });
 });
 
-const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+httpServer.listen(3001, () => {
+  console.log("SERVER IS RUNNING");
 });
