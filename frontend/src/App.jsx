@@ -77,23 +77,40 @@ function App() {
   };
 
   useEffect(() => {
-    // Handle incoming messages
     const handleIncomingMessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === "receive_message") {
         setMessageReceived(data.message);
       }
     };
-
-    // Add the event listener
-    socket.addEventListener("message", handleIncomingMessage);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      socket.removeEventListener("message", handleIncomingMessage);
+  
+    const openWebSocket = () => {
+      const newSocket = new WebSocket("wss://chat-app-test-chi.vercel.app/");
+  
+      newSocket.addEventListener("open", () => {
+        console.log("WebSocket connection opened");
+      });
+  
+      newSocket.addEventListener("message", handleIncomingMessage);
+  
+      newSocket.addEventListener("close", () => {
+        console.log("WebSocket connection closed");
+      });
+  
+      setSocket(newSocket);
     };
-  }, []);
-
+  
+    if (!socket || socket.readyState === WebSocket.CLOSED) {
+      openWebSocket();
+    }
+  
+    return () => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
+    };
+  }, [socket]);
+  
   return (
     <div className="App">
       <input
