@@ -16,10 +16,11 @@ app.get("/home", (req, res) => {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://https://chat-app-front-tau.vercel.app", // Update this to your Vercel frontend domain with HTTPS
     methods: ["GET", "POST"],
   },
 });
+
 
 // const io = new Server(httpServer, {
 //   cors: {
