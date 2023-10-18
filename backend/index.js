@@ -12,9 +12,10 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://chat-app-test-chi.vercel.app", // Update this to your frontend domain with HTTPS
+    origin: "https://https://chat-app-front-tau.vercel.app/", // Update this to your frontend domain with HTTPS
     methods: ["GET", "POST"],
   },
+  path: "/socket.io",
 });
 
 io.on("connection", (socket) => {
