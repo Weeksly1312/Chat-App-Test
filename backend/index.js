@@ -18,11 +18,6 @@ const io = new Server(httpServer, {
   path: "/socket.io",
 });
 
-app.use('/', (req, res, next) => {
-  console.log(`User Disconnected`);
-  next(); // Call the next middleware or route handler
-});
-
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
