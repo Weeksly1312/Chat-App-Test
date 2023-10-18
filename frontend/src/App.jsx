@@ -91,19 +91,20 @@ function App() {
   
     const openWebSocket = () => {
       const newSocket = new WebSocket("wss://localhost:3001");
-  
+    
       newSocket.addEventListener("open", () => {
         console.log("WebSocket connection opened");
       });
-  
+    
       newSocket.addEventListener("message", handleIncomingMessage);
-  
+    
       newSocket.addEventListener("close", () => {
         console.log("WebSocket connection closed");
       });
-  
-      setSocket(newSocket);
+    
+      setRoom(newSocket);  // Replace setSocket with setRoom
     };
+    
   
     if (!socket || socket.readyState === WebSocket.CLOSED) {
       openWebSocket();
