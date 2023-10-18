@@ -28,7 +28,19 @@ const io = new Server(httpServer, {
   },
 });
 
-
+console.log("CORS configuration:", io.cors);
+  
+io.use((socket, next) => {
+    // Implement your own CORS logic here
+    const allowedOrigins = ["https://chat-app-front-tau.vercel.app"];
+    const origin = socket.handshake.headers.origin;
+  
+    if (allowedOrigins.includes(origin)) {
+      return next();
+    }
+  
+    return next(new Error("Invalid origin"));
+  });
   
 
   io.on("connection", (socket) => {
@@ -47,6 +59,8 @@ const io = new Server(httpServer, {
       console.log(`User Disconnected: ${socket.id}`);
     });
   });
+
+
   
 
   httpServer.listen(3001, () => {
