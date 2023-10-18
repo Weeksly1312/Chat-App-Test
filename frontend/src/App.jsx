@@ -54,7 +54,7 @@
 
 import { useEffect, useState } from "react";
 
-const socket = new WebSocket("ws://some-websocket-website.com");
+const socket = new WebSocket("wss://chat-app-test-chi.vercel.app/");
 
 function App() {
   // Room State
