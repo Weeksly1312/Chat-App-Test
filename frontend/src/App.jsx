@@ -54,7 +54,7 @@
 
 import { useEffect, useState } from "react";
 
-const socket = new WebSocket("https://chat-app-test-chi.vercel.app/");
+const socket = new WebSocket("wss://chat-app-test-chi.vercel.app/");
 
 function App() {
   // Room State
@@ -90,7 +90,7 @@ function App() {
     };
   
     const openWebSocket = () => {
-      const newSocket = new WebSocket("https://chat-app-test-chi.vercel.app/");
+      const newSocket = new WebSocket("wss://chat-app-test-chi.vercel.app/");
   
       newSocket.addEventListener("open", () => {
         console.log("WebSocket connection opened");
