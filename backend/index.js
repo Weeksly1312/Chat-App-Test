@@ -12,7 +12,7 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://https://chat-app-front-tau.vercel.app/", // Update this to your frontend domain with HTTPS
+    origin: "https://chat-app-front-tau.vercel.app", // Fix the typo here
     methods: ["GET", "POST"],
   },
   path: "/socket.io",
