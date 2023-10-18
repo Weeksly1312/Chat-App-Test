@@ -1,0 +1,18 @@
+/* Chat.css */
+
+.message-container {
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+  }
+  
+  .sent {
+    text-align: right;
+    color: green;
+  }
+  
+  .received {
+    text-align: left;
+    color: blue;
+  }
+  
