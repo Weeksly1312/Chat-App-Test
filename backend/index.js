@@ -39,10 +39,10 @@ io.on("connection", (socket) => {
     socket.to(data.room).emit("receive_message", data);
   });
 
-  // Add disconnect event handling
-  socket.on("disconnect", () => {
-    console.log(`User Disconnected: ${socket.id}`);
-  });
+
+//   socket.on("disconnect", () => {
+//     console.log(`User Disconnected: ${socket.id}`);
+//   });
 });
 
 httpServer.listen(3001, () => {
