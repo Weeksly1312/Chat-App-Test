@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 
 // const socket = io.connect("http://localhost:3001");
-const socket = io.connect("https://chat-app-test-chi.vercel.app/");
+const socket = io.connect("wss://chat-app-test-chi.vercel.app/");
 
 
 function App() {

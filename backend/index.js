@@ -26,6 +26,7 @@ const io = new Server(httpServer, {
     origin: "https://chat-app-front-tau.vercel.app", // Update this to your frontend domain with HTTPS
     methods: ["GET", "POST"],
   },
+  allowEIO3: true, // Add this line
 });
 
 console.log("CORS configuration:", io.cors);
