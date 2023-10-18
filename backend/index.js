@@ -36,11 +36,9 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-// Add this middleware before your routes
-app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Define a route that displays "Hello"
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     res.send('Hello');
 });
 
