@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 
 // const socket = io.connect("http://localhost:3001");
-const socket = io.connect("https://chat-app-test-8zn3-h9yz4qudz-weeksly1312s-projects.vercel.app");
+const socket = io.connect("http://chat-app-test-8zn3-h9yz4qudz-weeksly1312s-projects.vercel.app");
 
 function App() {
   //Room State
