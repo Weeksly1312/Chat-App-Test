@@ -1,97 +1,51 @@
-// const express = require("express");
-// const app = express();
-// // const http = require("http");
-// const { createServer } = require("http");
-// const { Server } = require("socket.io");
-// const cors = require("cors");
-
-// app.use(cors());
-
-// // const server = http.createServer(app);
-// const httpServer = createServer(app);
-
-// app.get("/home", (req, res) => {
-//   res.send("Hello");
-// });
-
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: "http://localhost:5173",
-//     methods: ["GET", "POST"],
-//   },
-// });
-
-// // const io = new Server(httpServer, {
-// //   cors: {
-// //     origin: "https://chat-app-front-tau.vercel.app", // Update this to your frontend domain with HTTPS
-// //     methods: ["GET", "POST"],
-// //   },
-// // });
-
-// io.on("connection", (socket) => {
-//   console.log(`User Connected: ${socket.id}`);
-
-//   socket.on("join_room", (data) => {
-//     socket.join(data);
-//   });
-
-//   socket.on("send_message", (data) => {
-//     socket.to(data.room).emit("receive_message", data);
-//   });
-
-
-// //   socket.on("disconnect", () => {
-// //     console.log(`User Disconnected: ${socket.id}`);
-// //   });
-// });
-
-// httpServer.listen(3001, () => {
-//   console.log("SERVER IS RUNNING");
-// });
-
 const express = require("express");
 const app = express();
+// const http = require("http");
 const { createServer } = require("http");
-const WebSocket = require("ws");
+const { Server } = require("socket.io");
 const cors = require("cors");
 
-const corsOptions = {
-  origin: "https://chat-app-front-tau.vercel.app",
-  methods: ["GET", "POST"],
-};
+app.use(cors());
 
-app.use(cors(corsOptions));
-
+// const server = http.createServer(app);
 const httpServer = createServer(app);
 
 app.get("/home", (req, res) => {
   res.send("Hello");
 });
 
-const wsServer = new WebSocket.Server({ server: httpServer });
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
 
-wsServer.on("connection", (socket) => {
-  console.log(`User Connected: ${socket._socket.remoteAddress}`);
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "https://chat-app-front-tau.vercel.app", // Update this to your frontend domain with HTTPS
+//     methods: ["GET", "POST"],
+//   },
+// });
 
-  socket.on("message", (message) => {
-    const data = JSON.parse(message);
-    if (data.type === "join_room") {
-      socket.room = data.room;
-      socket.join(data.room);
-    } else if (data.type === "send_message") {
-      wsServer.clients.forEach((client) => {
-        if (client.room === socket.room && client !== socket) {
-          client.send(JSON.stringify({ type: "receive_message", ...data }));
-        }
-      });
-    }
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
   });
 
-  socket.on("close", () => {
-    console.log(`User Disconnected: ${socket._socket.remoteAddress}`);
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
   });
+
+
+//   socket.on("disconnect", () => {
+//     console.log(`User Disconnected: ${socket.id}`);
+//   });
 });
 
 httpServer.listen(3001, () => {
   console.log("SERVER IS RUNNING");
 });
+
