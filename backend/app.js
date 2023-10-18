@@ -16,7 +16,7 @@ const server = http.createServer(app);
 // });
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-app-test-l4v3ydsu9-weeksly1312s-projects.vercel.app",
+    origin: "https://chat-app-test-i61lktllh-weeksly1312s-projects.vercel.app",
     methods: ["GET", "POST"],
   },
 });
