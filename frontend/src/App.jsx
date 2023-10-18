@@ -72,9 +72,14 @@ function App() {
   };
 
   const sendMessage = () => {
-    // Use JSON.stringify to send data as a JSON string
-    socket.send(JSON.stringify({ type: "send_message", message, room }));
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      const data = { type: "send_message", message, room };
+      socket.send(JSON.stringify(data));
+    } else {
+      console.error("WebSocket is not open.");
+    }
   };
+  
 
   useEffect(() => {
     const handleIncomingMessage = (event) => {
