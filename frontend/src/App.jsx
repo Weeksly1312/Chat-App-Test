@@ -1,15 +1,12 @@
+// frontend/src/App.js
+
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 
-// const socket = io.connect("http://localhost:3001");
-const socket = io.connect("wss://chat-app-test-chi.vercel.app/");
-
+const socket = io.connect("https://chat-app-test-chi.vercel.app/");
 
 function App() {
-  //Room State
   const [room, setRoom] = useState("");
-
-  // Messages States
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState("");
 
@@ -24,10 +21,18 @@ function App() {
   };
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
+    const handleReceiveMessage = (data) => {
       setMessageReceived(data.message);
-    });
+    };
+
+    socket.on("receive_message", handleReceiveMessage);
+
+    return () => {
+      // Clean up the event listener to avoid memory leaks
+      socket.off("receive_message", handleReceiveMessage);
+    };
   }, []);
+
   return (
     <div className="App">
       <input
