@@ -21,7 +21,7 @@ app.get('/home', (req, res) => {
 
 const io = new Server(server, {
     cors: {
-      origin: "https://chat-app-front-tau.vercel.app", // Update this to your frontend domain
+      origin: "http://chat-app-front-tau.vercel.app", // Update this to your frontend domain
       methods: ["GET", "POST"],
     },
   });
